@@ -3,12 +3,13 @@ import http.server
 import socketserver
 import os
 import datetime as dt
+import pytz
 #print('source code for "http.server":', http.server.__file__)
 
 class web_server(http.server.SimpleHTTPRequestHandler):
     
     def do_GET(self):
-        now = dt.datetime.now()
+        now = dt.datetime.now(pytz.timezone('Europe/Warsaw'))
         time = now.strftime("%H:%M:%S") + "\n"
         print(self.path)
         

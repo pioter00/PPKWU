@@ -9,6 +9,7 @@ class web_server(http.server.SimpleHTTPRequestHandler):
     
     def do_GET(self):
         now = dt.datetime.now()
+        time = now.strftime("%H:%M:%S") + "\n"
         print(self.path)
         
         if self.path == '/':
@@ -16,7 +17,8 @@ class web_server(http.server.SimpleHTTPRequestHandler):
             self.send_response(200)
             self.send_header("Content-type", "text/html; charset=UTF-8")
             self.end_headers()            
-            self.wfile.write(b"Hello World!\n111\n")
+            self.wfile.write(b"Hello World!\n")
+            self.wfile.write(time.encode())
         else:
             super().do_GET()
     

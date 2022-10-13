@@ -2,7 +2,7 @@
 import http.server
 import socketserver
 import os
-
+import datetime as dt
 #print('source code for "http.server":', http.server.__file__)
 
 class web_server(http.server.SimpleHTTPRequestHandler):
@@ -16,7 +16,7 @@ class web_server(http.server.SimpleHTTPRequestHandler):
             self.send_response(200)
             self.send_header("Content-type", "text/html; charset=UTF-8")
             self.end_headers()            
-            self.wfile.write(b"Hello World!\n")
+            self.wfile.write(b"Test Hello World!\n")
         else:
             super().do_GET()
     

@@ -23,14 +23,21 @@ class web_server(http.server.SimpleHTTPRequestHandler):
             self.wfile.write(b"Hello World!\n")
             
         elif len(qs) == 1 and 'cmd' in qs.keys() and qs['cmd'][0] == 'time':
-        # else:
             self.protocol_version = 'HTTP/1.1'
             self.send_response(200)
             self.send_header("Content-type", "text/html; charset=UTF-8")
             self.end_headers()
             self.wfile.write(time.encode())            
-            self.wfile.write(str(qs).encode())
-            # super().do_GET()
+
+        elif len(qs) == 2 and 'cmd' in qs.keys() and qs['cmd'][0] == 'rev' and 'str' in qs.keys():
+            self.protocol_version = 'HTTP/1.1'
+            self.send_response(200)
+            self.send_header("Content-type", "text/html; charset=UTF-8")
+            self.end_headers()
+            rev = qs['str'][0][::-1]
+            self.wfile.write(rev.encode())
+        else:
+            super().do_GET()
     
 # --- main ---
 

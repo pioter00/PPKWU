@@ -23,7 +23,7 @@ class web_server(http.server.SimpleHTTPRequestHandler):
             lowercase_count = 
             count_dict = { 
                 "lowercase" : sum(map(str.islower, to_count_str)), 
-                "uppercase" : 0, 
+                "uppercase" : sum(map(str.isupper, to_count_str)), 
                 "digits" : 0, 
                 "special" : 0
             }

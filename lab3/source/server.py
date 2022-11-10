@@ -19,8 +19,10 @@ class web_server(http.server.SimpleHTTPRequestHandler):
             self.send_header("Content-type", "text/html; charset=UTF-8")
             self.end_headers()
             to_count_str = qs['str']
+
+            lowercase_count = 
             count_dict = { 
-                "lowercase" : 0, 
+                "lowercase" : sum(map(str.islower, to_count_str)), 
                 "uppercase" : 0, 
                 "digits" : 0, 
                 "special" : 0

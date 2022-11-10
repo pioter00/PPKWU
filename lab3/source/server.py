@@ -18,12 +18,12 @@ class web_server(http.server.SimpleHTTPRequestHandler):
             self.send_response(200)
             self.send_header("Content-type", "text/html; charset=UTF-8")
             self.end_headers()
-            to_count_str = qs['str']
-            count_dict = { 
+            to_count_str = qs['str'][0]
+            count_dict = {
                 "lowercase" : sum(map(str.islower, to_count_str)), 
                 "uppercase" : sum(map(str.isupper, to_count_str)), 
                 "digits" : sum(map(str.isdigit, to_count_str)), 
-                "special" : 0
+                "special" : len(to_count_str) - sum(map(str.islower, to_count_str)) - sum(map(str.isupper, to_count_str)) - sum(map(str.isdigit, to_count_str))
             }
             self.wfile.write(json.dumps(count_dict).encode())
         else:

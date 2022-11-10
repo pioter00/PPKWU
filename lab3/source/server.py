@@ -5,6 +5,7 @@ import os
 import datetime as dt
 from urllib.parse import urlparse
 from urllib.parse import parse_qs
+import json
 
 class web_server(http.server.SimpleHTTPRequestHandler):
     
@@ -17,8 +18,14 @@ class web_server(http.server.SimpleHTTPRequestHandler):
             self.send_response(200)
             self.send_header("Content-type", "text/html; charset=UTF-8")
             self.end_headers()
-            rev = qs['str'][0][::-1]
-            self.wfile.write(rev.encode())
+            to_count_str = qs['str']
+            count_dict = { 
+                "lowercase" : 0, 
+                "uppercase" : 0, 
+                "digits" : 0, 
+                "special" : 0
+            }
+            self.wfile.write(json.dumps(count_dict).encode())
         else:
             super().do_GET()
     

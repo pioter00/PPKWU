@@ -18,8 +18,12 @@ class web_server(http.server.SimpleHTTPRequestHandler):
             self.send_response(200)
             self.send_header("Content-type", "text/html; charset=UTF-8")
             self.end_headers()
-            num1 = int(qs['num1'][0])
-            num2 = int(qs['num2'][0])
+            try:
+                num1 = int(qs['num1'][0])
+                num2 = int(qs['num2'][0])
+            except ValueError:
+                self.wfile.write("Not valid numbers".encode())
+                return
             if num2 == 0:
                 self.wfile.write("Not valid numbers".encode())
             else:

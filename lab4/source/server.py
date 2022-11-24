@@ -20,14 +20,17 @@ class web_server(http.server.SimpleHTTPRequestHandler):
             self.end_headers()
             num1 = qs['num1'][0]
             num2 = qs['num2'][0]
-            count_dict = {
-                "sum" : 0, 
-                "sub" : 0, 
-                "mul" : 0, 
-                "div" : 0,
-                "mod" : 0
-            }
-            self.wfile.write(json.dumps(count_dict).encode())
+            if not isinstance(num1, int) or not isinstance(num2, int) or num2 != 0:
+                self.wfile.write("Not valid numbers".encode())
+            else:
+                count_dict = {    
+                    "sum" : 0, 
+                    "sub" : 0, 
+                    "mul" : 0, 
+                    "div" : 0,
+                    "mod" : 0
+                }
+                self.wfile.write(json.dumps(count_dict).encode())
         else:
             super().do_GET()
     

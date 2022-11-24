@@ -13,17 +13,19 @@ class web_server(http.server.SimpleHTTPRequestHandler):
         parsed = urlparse(self.path)
         qs = parse_qs(parsed.query)         
 
-        if len(qs) == 1 and 'str' in qs.keys():
+        if len(qs) == 1 and 'num1' in qs.keys() and 'num2' in qs.keys():
             self.protocol_version = 'HTTP/1.1'
             self.send_response(200)
             self.send_header("Content-type", "text/html; charset=UTF-8")
             self.end_headers()
-            to_count_str = qs['str'][0]
+            num1 = qs['num1'][0]
+            num2 = qs['num2'][0]
             count_dict = {
-                "lowercase" : sum(map(str.islower, to_count_str)), 
-                "uppercase" : sum(map(str.isupper, to_count_str)), 
-                "digits" : sum(map(str.isdigit, to_count_str)), 
-                "special" : len(to_count_str) - sum(map(str.islower, to_count_str)) - sum(map(str.isupper, to_count_str)) - sum(map(str.isdigit, to_count_str))
+                "sum" : 0, 
+                "sub" : 0, 
+                "mul" : 0, 
+                "div" : 0,
+                "mod" : 0
             }
             self.wfile.write(json.dumps(count_dict).encode())
         else:

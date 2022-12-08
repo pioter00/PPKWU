@@ -8,10 +8,22 @@ from urllib.parse import parse_qs
 import json
 
 class web_server(http.server.SimpleHTTPRequestHandler):
-
+    def count_letters(expression):
+        to_count_str = expression['str']
+        return {
+            "lowercase" : sum(map(str.islower, to_count_str)), 
+            "uppercase" : sum(map(str.isupper, to_count_str)), 
+            "digits" : sum(map(str.isdigit, to_count_str)), 
+            "special" : len(to_count_str) - sum(map(str.islower, to_count_str)) - sum(map(str.isupper, to_count_str)) - sum(map(str.isdigit, to_count_str))
+        }
     def do_POST(self):
-        pass
-    
+        final_dict = {}
+        self.protocol_version = 'HTTP/1.1'
+        self.send_response(200)
+        self.send_header("Content-type", "text/html; charset=UTF-8")
+        self.end_headers()
+        self.wfile.write(json.dumps(final_dict).encode())
+
 # --- main ---
 
 PORT = 4080

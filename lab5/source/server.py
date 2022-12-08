@@ -8,7 +8,7 @@ from urllib.parse import parse_qs
 import json
 
 class web_server(http.server.SimpleHTTPRequestHandler):
-    def count_letters(expression):
+    def count_letters(self, expression):
         to_count_str = expression['str']
         return {
             "lowercase" : sum(map(str.islower, to_count_str)), 
@@ -16,7 +16,7 @@ class web_server(http.server.SimpleHTTPRequestHandler):
             "digits" : sum(map(str.isdigit, to_count_str)), 
             "special" : len(to_count_str) - sum(map(str.islower, to_count_str)) - sum(map(str.isupper, to_count_str)) - sum(map(str.isdigit, to_count_str))
         }
-    def count_expression(expression):
+    def count_expression(self, expression):
         num1 = expression['num1']
         num2 = expression['num2']
         return {    
@@ -34,7 +34,12 @@ class web_server(http.server.SimpleHTTPRequestHandler):
         self.end_headers()
         data_string = self.rfile.read(int(self.headers['Content-Length']))
         expression = json.loads(data_string)
-        self.wfile.write(json.dumps(expression).encode())
+        if 'num1' in expression.keys() and 'num2' in expression.keys():
+            final_dict.update(self.count_expression(expression))
+        if 'str' in expression.keys():
+            final_dict.update(self.count_letters(expression))
+        
+        self.wfile.write(json.dumps(final_dict).encode())
 
 # --- main ---
 

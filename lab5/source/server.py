@@ -32,7 +32,9 @@ class web_server(http.server.SimpleHTTPRequestHandler):
         self.send_response(200)
         self.send_header("Content-type", "text/html; charset=UTF-8")
         self.end_headers()
-        self.wfile.write(json.dumps(final_dict).encode())
+        data_string = self.rfile.read(int(self.headers['Content-Length']))
+        expression = json.loads(data_string)
+        self.wfile.write(json.dumps(expression).encode())
 
 # --- main ---
 

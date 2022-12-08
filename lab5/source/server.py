@@ -16,6 +16,16 @@ class web_server(http.server.SimpleHTTPRequestHandler):
             "digits" : sum(map(str.isdigit, to_count_str)), 
             "special" : len(to_count_str) - sum(map(str.islower, to_count_str)) - sum(map(str.isupper, to_count_str)) - sum(map(str.isdigit, to_count_str))
         }
+    def count_expression(expression):
+        num1 = expression['num1']
+        num2 = expression['num2']
+        return {    
+            "sum" : num1 + num2, 
+            "sub" : num1 - num2, 
+            "mul" : num1 * num2, 
+            "div" : int(num1 / num2),
+            "mod" : num1 % num2
+        }
     def do_POST(self):
         final_dict = {}
         self.protocol_version = 'HTTP/1.1'

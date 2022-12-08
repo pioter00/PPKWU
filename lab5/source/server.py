@@ -35,6 +35,9 @@ class web_server(http.server.SimpleHTTPRequestHandler):
         data_string = self.rfile.read(int(self.headers['Content-Length']))
         expression = json.loads(data_string)
         if 'num1' in expression.keys() and 'num2' in expression.keys():
+            if expression['num2'] == 0 or type(expression['num1']) != int or type(expression['num2']) != int:
+                self.wfile.write("Not valid numbers".encode())
+                return
             final_dict.update(self.count_expression(expression))
         if 'str' in expression.keys():
             final_dict.update(self.count_letters(expression))
